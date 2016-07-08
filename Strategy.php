@@ -70,12 +70,13 @@ class Sender
 
 
 switch($context){
-    case 5: new Context(new FiveDayMail());
+    case 5: $context = new Context(new FiveDayMail());
         break;
-    case 2: new Context(new TwoDayMail());
+    case 2: $context = new Context(new TwoDayMail());
         break;
-    case 1: new Context(new OneDayMail());
+    case 1: $context = new Context(new OneDayMail());
         break;
-    case 0: new Context(new DisablePublicationMail());
+    case 0: $context = new Context(new DisablePublicationMail());
         break
+    }
 $context->execute();

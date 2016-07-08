@@ -5,11 +5,10 @@
  */
 class Mail 
 {    
-    private $_adminMail = "fromthis@gmail.com";
     private $_subject = "";
     private $_message = "";
-    private $_mailTo = "";
-
+    private $_mailTo = [];
+    
     public function setSubject($subject) 
     {
         $this->_subject = $subject;
@@ -22,12 +21,13 @@ class Mail
     
     public function setMailTo($mailTo) 
     {
-        $this->_mailTo = $mailTo;
+        $this->_mailTo[] = $mailTo;
     }
     
     public function sendMail()
     {
-        $result = array($this->_mailTo, $this->_subject, $this->_message, $this->_adminMail);
+        $this->_mailTo = implode(', ', $this->_mailTo);
+        $result = array($this->_mailTo, $this->_subject, $this->_message);
         return $result;
     }
 }
@@ -81,7 +81,7 @@ class BuilderMailFiveDays extends BuilderMail
 /**
  * BuilderMailTowDays - Конкретный строитель писем за 2 дня до деактивации
  */
-class BuilderMailTowDays extends BuilderMail 
+class BuilderMailTwoDays extends BuilderMail 
 {
     public function buildSubject() 
     {
@@ -171,18 +171,26 @@ class MailBuilder
     }
 }
 
-// Инициализация управляющего
-$mailBuilder = new MailBuilder();
+class Factory
+{
+    public function factoryMethod($type)
+    {
 
-// Инициализация доступных видов
-$builderMailFiveDays  = new BuilderMailFiveDays();
-$builderMailTowDays = new BuilderMailTowDays();
-$builderMailOneDay = new BuilderMailOneDay();
-$builderMailDisable = new BuilderMailDisable();
+        switch($type){
+            case 0: return new BuilderMailDisable();
+                break;
 
-// Подготовка и отправка писем
-$mailBuilder->setBuilderMail( $builderMailTowDays );
-$mailBuilder->constructMail("mymail@gmail.com");
-$mail = $mailBuilder->getMail();
+            case 1: return new BuilderMailOneDay();
+                break;
 
-var_dump($mail->sendMail());
+            case 2: return new BuilderMailTowDays();
+                break;
+
+            case 5: return new BuilderMailFiveDays();
+                break;
+        }
+    }
+
+}
+
+
