@@ -1,7 +1,8 @@
 <?php
 
-include_once('Db.php');
-
+include_once('vendors/Db.php');
+include_once('vendors/Builder.php');
+include_once('vendors/mail.php');
 ?>
 
     <!DOCTYPE html>
