@@ -23,7 +23,7 @@ foreach($items as $text){
     switch($diff){
         case 5: $email = getEmail($text['user_id']);
             $mail5 = setMailBuilder($email, 5, $mail5);
-            //пример для проверки письма
+            //пример для проверки письма которое будет отправлено
             //var_dump($mail5->sendMail()); 
             break;
         case 2: $email = getEmail($text['user_id']);
